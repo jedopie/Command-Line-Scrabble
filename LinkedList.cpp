@@ -1,6 +1,8 @@
 
 #include "LinkedList.h"
+#include <iostream>
 #include <stdexcept>
+#include <fstream>
 
 LinkedList::LinkedList() {
    head = nullptr;
@@ -31,24 +33,24 @@ int LinkedList::size(){
    return length;
 }
 
-Tile* get(int index){
+Tile* LinkedList::get(int index){
    Tile* returnTile = nullptr;
 
    // Defensive programming check
    //  if(index >= 0 && index < size()){
 
-        int counter = 0;
-        Node* currentNode = head;
+   int counter = 0;
+   Node* currentNode = head;
 
-        while(counter<index){
-            ++counter;
-            currentNode = currentNode->next;
-        }
+   while(counter<index){
+      ++counter;
+      currentNode = currentNode->next;
+   }
 
-        returnTile = currentNode->tile;
+   returnTile = currentNode->tile;
 
-   //  }
-    return returnTile;
+//  }
+   return returnTile;
 }
 
 
@@ -146,5 +148,18 @@ void LinkedList::remove(int index){
 void LinkedList::clearLinkedList(){
      while(head != nullptr){
         removeFront();
+    }
+}
+
+void LinkedList::initaliseTileBag() {
+    Letter letter;
+    Value value;
+    std::fstream myfile ("ScrabbleTiles.txt");
+    int i =0;
+    while (myfile && i<98 ){
+        myfile >> letter >> value;
+        Tile* tile = new Tile(letter, value);
+        this->addBack(tile);
+        i++;
     }
 }
