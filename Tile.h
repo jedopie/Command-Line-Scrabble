@@ -12,6 +12,14 @@ class Tile {
 public:
    Letter letter;
    Value  value;
+
+   Tile(Letter letter, Value value);
+   Tile(Tile& other);
+   ~Tile();
+
+   // Value getLetterValue(Letter l);
+   Letter getLetter();
+   Value getValue();
 };
 
 #endif // ASSIGN2_TILE_H
