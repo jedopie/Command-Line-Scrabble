@@ -17,6 +17,7 @@ public:
    void remove(int index);
    void clearLinkedList();
    void initaliseTileBag();
+   LinkedList* shuffleTileBag();
 
 
 

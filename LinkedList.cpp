@@ -3,6 +3,9 @@
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
+#include <random>
+
+#define     MAX      98
 
 LinkedList::LinkedList() {
    head = nullptr;
@@ -151,15 +154,48 @@ void LinkedList::clearLinkedList(){
     }
 }
 
+// Initalise original ordered tileBag(LinkedList) - Reads from file and populates list
 void LinkedList::initaliseTileBag() {
-    Letter letter;
-    Value value;
-    std::fstream myfile ("ScrabbleTiles.txt");
-    int i =0;
-    while (myfile && i<98 ){
-        myfile >> letter >> value;
-        Tile* tile = new Tile(letter, value);
-        this->addBack(tile);
-        i++;
-    }
+   Letter letter;
+   Value value;
+   std::fstream myfile ("ScrabbleTiles.txt");
+   int i =0;
+   while (myfile && i< MAX ){
+      myfile >> letter >> value;
+      Tile* tile = new Tile(letter, value);
+      this->addBack(tile);
+      i++;
+   }
+}
+
+// shuffles original tileBag and stores into new LinkedList
+LinkedList* LinkedList::shuffleTileBag() {
+   LinkedList* shuffledList = new LinkedList();
+   // vector to establish which tiles have already been visited
+   std::vector<int> visited;
+   int rand;
+   Tile* tile = nullptr;
+
+   // Bounds for random number
+   int min = 0;
+   int max = this->size();
+
+   std::random_device engine;
+   std::uniform_int_distribution<int> uniform_dist(min,max);
+
+   // while not all tiles have been reached
+   while (visited.size() != MAX) {
+      rand = (uniform_dist(engine) % this->size()) + 0;
+      // if random index has already been checked -> choose a new index
+      if (std::find(visited.begin(), visited.end(),rand)!=visited.end()){
+         rand = (uniform_dist(engine) % this->size()) + 0;
+      }
+      // if random index has not yet been reached -> add to vector, create reference to tile and add to the returned list
+      else {
+         visited.push_back(rand);
+         tile = new Tile(*this->get(rand));
+         shuffledList->addBack(tile);
+      }
+   }
+   return shuffledList;
 }
