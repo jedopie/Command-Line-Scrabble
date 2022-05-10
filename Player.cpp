@@ -66,3 +66,16 @@ void Player::replaceTile(char character, LinkedList* tileBag) {
         std::cout << "Incorrect Input" << std::endl;
     }
 }
+
+// after a player's turn -> add tiles to hand until player has 7 tiles
+void Player::addTilesToHand(LinkedList* tileBag) {
+    int length = getPlayerHand()->size();
+    Tile* bagTail = tileBag->getTail();
+    Tile* tile;
+    while (length <7) {
+        tile = new Tile(*bagTail);
+        getPlayerHand()->addBack(tile);
+        tileBag->removeBack();
+        length++;
+    }
+}

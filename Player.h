@@ -16,6 +16,9 @@ void addToScore(int addScore);
 LinkedList* getPlayerHand();
 void initalisePlayerHand(LinkedList* tileBag);
 void replaceTile(char character, LinkedList* tileBag);
+void addTilesToHand(LinkedList* tileBag);
+
+// Add function to add multiple tiles to hand (while size() != 7)
 
 
 
