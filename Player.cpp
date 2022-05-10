@@ -44,7 +44,8 @@ void Player::initalisePlayerHand(LinkedList* tileBag) {
 // 2. check if input character is in player's hand
 // 3. if true, get index of first occurrence of letter in hand
 // 4. remove tile from player's hand 
-// 5. take from tileBag
+// 5. take from tileBag (remove from list)
+// 6. Add tile to back of player's hand.
 void Player::replaceTile(char character, LinkedList* tileBag) {
     bool isIn = getPlayerHand()->isLetterinHand(character);
     int indexFound =0;
