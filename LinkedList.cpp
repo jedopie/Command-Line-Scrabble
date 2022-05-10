@@ -147,6 +147,36 @@ void LinkedList::remove(int index){
     }
 
 }
+// check if input character is in the given LinkedList (for playerHand)
+bool LinkedList::isLetterinHand(char character) {
+   bool isIn = false;
+   for (int i=0; i < size(); i++) {
+      if (this->get(i)->getLetter() == character) {
+         isIn= true;
+      }
+   }
+   return isIn;
+}
+
+int LinkedList::searchForLetter(char character) {
+   int count = 0;
+   int index = -1;
+   if (isLetterinHand(character)) {
+      while(this->get(count)->getLetter() != character){
+         count++;
+      }
+      index = count;
+   }
+   return index;
+}
+
+Tile* LinkedList::getTail() {
+   Node* current = head;
+   while(current->next != nullptr) {
+      current = current->next;
+   }
+   return current->tile;
+}
 
 void LinkedList::clearLinkedList(){
      while(head != nullptr){
@@ -185,12 +215,13 @@ LinkedList* LinkedList::shuffleTileBag() {
 
    // while not all tiles have been reached
    while (visited.size() != MAX) {
-      rand = (uniform_dist(engine) % this->size()) + 0;
+      rand = (uniform_dist(engine) % this->size()) + min;
       // if random index has already been checked -> choose a new index
       if (std::find(visited.begin(), visited.end(),rand)!=visited.end()){
-         rand = (uniform_dist(engine) % this->size()) + 0;
+         rand = (uniform_dist(engine) % this->size()) + min;
       }
-      // if random index has not yet been reached -> add to vector, create reference to tile and add to the returned list
+      // 1. if random index has not yet been reached (check against Vector visited) -> add to vector
+      // 2. create reference to tile and add to the returned list
       else {
          visited.push_back(rand);
          tile = new Tile(*this->get(rand));

@@ -11,13 +11,17 @@ public:
 
    int size();
    Tile* get(int index);
+   Tile* getTail();
    void addBack(Tile* data);
    void removeFront();
    void removeBack();
    void remove(int index);
    void clearLinkedList();
    void initaliseTileBag();
+   int searchForLetter(char character);
+   bool isLetterinHand(char character);
    LinkedList* shuffleTileBag();
+
 
 
 
