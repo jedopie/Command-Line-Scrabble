@@ -5,6 +5,7 @@
 Board::Board() {
     gameRow.assign(MAX_BOARD_SIZE, nullptr);
     gBoard.assign(MAX_BOARD_SIZE, gameRow);
+    placedTiles = {};
 }
 
 void Board::insertTile(const string position, Tile* tile) {
@@ -31,6 +32,7 @@ void Board::insertTile(const string position, Tile* tile) {
         if (gBoard[row][column] == nullptr) {
             gBoard[row][column] = tile;
             std::cout << tile->letter << " Added at " << position << std::endl;
+            placedTiles.push_back(string(1,tile->letter) + "@" + position); // Add to placedTiles vector
         }
         else {
             std::cout << "Sorry, there is already a tile placed at " << position << ". Try Again." << std::endl;
@@ -101,5 +103,9 @@ bool Board::inputValid(string position) {
         return false;
     }
     return true;
+}
+
+vector<string> Board::getPlacedTiles() {
+    return placedTiles;
 }
 

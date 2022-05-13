@@ -27,6 +27,7 @@ class Board {
     bool isNumber(char c);
     bool isUpperCase(char c);
     bool inputValid(string position);
+    vector<string> getPlacedTiles();
 
 
 
@@ -35,6 +36,7 @@ class Board {
 
     vector<Tile*> gameRow;
     vector<vector<Tile*>> gBoard;
+    vector<string> placedTiles;
 
 
     
