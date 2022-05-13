@@ -92,8 +92,12 @@ bool Board::isNumber(char c) {
     return (int(c -'0') >= 0 && int(c-'0') <= 9);
 }
 
+bool Board::isUpperCase(char c) {
+    return int(c) >= 65 && int(c) <= 90;
+}
+
 bool Board::inputValid(string position) {
-    if (!isNumber(position[1]) || (!isNumber(position[2]) && position[2] != 32 && position[2] != 0)) {
+    if (!isNumber(position[1]) || (!isNumber(position[2]) && position[2] != 32 && position[2] != 0) || !isUpperCase(position[0])) {
         return false;
     }
     return true;

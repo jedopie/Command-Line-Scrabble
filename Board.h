@@ -25,6 +25,7 @@ class Board {
     void printBoard();
     void insertTile(const string position, Tile* tile);
     bool isNumber(char c);
+    bool isUpperCase(char c);
     bool inputValid(string position);
 
 
