@@ -4,7 +4,7 @@ Game::Game() {
     LinkedList* orderedTileBag = new LinkedList();
     orderedTileBag->initaliseTileBag();
     tileBag = orderedTileBag->shuffleTileBag();
-
+    board = new Board();
 }
 
 Game::~Game() {
@@ -37,6 +37,7 @@ void Game::saveGame(string fileName) {
     int player2Score = player2->getScore();
     LinkedList* player2Hand = player2->getPlayerHand();
     
+    vector<string> placedTiles = board->getPlacedTiles();
     // then board
     // tileBag already defined
     string currentPlayer;
@@ -62,6 +63,8 @@ void Game::saveGame(string fileName) {
     saveFile << "\n";
 
     // print board
+    printVector(saveFile, placedTiles);
+    saveFile << "\n";
 
     printLinkedList(saveFile, tileBag);
     saveFile << "\n" << currentPlayer;
@@ -75,6 +78,21 @@ void Game::printLinkedList(ofstream& saveFile, LinkedList* list) {
         }
         else {
             saveFile << list->get(i)->getLetter() << "-" << list->get(i)->getValue();
+        }
+    }
+}
+
+Board* Game::getBoard() {
+    return board;
+}
+
+void Game::printVector(ofstream& saveFile, vector<string> boardTiles) {
+    for (int i =0; i < boardTiles.size(); i++) {
+        if (i < boardTiles.size() -1) {
+            saveFile << boardTiles[i] << ",";
+        }
+        else {
+            saveFile << boardTiles[i];
         }
     }
 }

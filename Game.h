@@ -13,6 +13,7 @@ using std::vector;
 using std::ofstream;
 
 #include "Player.h"
+#include "Board.h"
 
 class Game {
     public:
@@ -22,11 +23,14 @@ class Game {
     vector<Player*> getPlayers();
     LinkedList* getTileBag();
     void printLinkedList(ofstream& saveFile, LinkedList* list);
+    void printVector(ofstream& saveFile,vector<string> boardTiles);
     void saveGame(string fileName);
+    Board* getBoard();
 
     private:
     vector<Player*> players;
     LinkedList* tileBag;
+    Board* board;
 };
 
 #endif
