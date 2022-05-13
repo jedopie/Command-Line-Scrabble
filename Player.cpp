@@ -5,6 +5,7 @@ Player::Player(string name) {
     this->name = name;
     score = 0;
     playerHand = new LinkedList();
+    currentTurn = false;
 }
 string Player::getName() {
     return this->name;
@@ -12,6 +13,18 @@ string Player::getName() {
 
 int Player::getScore() {
     return this->score;
+}
+
+bool Player::isCurrentTurn() {
+    return currentTurn;
+}
+
+void Player::setCurrentTurn() {
+    currentTurn = true;
+}
+
+void Player::endCurrentTurn(){
+    currentTurn = false;
 }
 
 void Player::setScore(int score) {
@@ -49,21 +62,22 @@ void Player::initalisePlayerHand(LinkedList* tileBag) {
 void Player::replaceTile(char character, LinkedList* tileBag) {
     bool isIn = getPlayerHand()->isLetterinHand(character);
     int indexFound =0;
-    Tile* tile;
+    Tile* tileToBag;
+    Tile* tileToHand;
     if (isIn) {
         indexFound = getPlayerHand()->searchForLetter(character);
-        tile = new Tile (*getPlayerHand()->get(indexFound));
+        tileToBag = new Tile (*getPlayerHand()->get(indexFound));
+        tileToHand = new Tile(*tileBag->getTail());
+
         getPlayerHand()->remove(indexFound);
-        getPlayerHand()->addBack(tileBag->getTail());
+        getPlayerHand()->addBack(tileToHand);
+        
         tileBag->removeBack();
-        tileBag->addBack(tile);
+        tileBag->addBack(tileToBag);
         std::cout << character << " Replaced!" << std::endl;
     }
-    else if (!isIn) {
-        std::cout << character << " Character is not in hand" << std::endl;
-    }
     else {
-        std::cout << "Incorrect Input" << std::endl;
+        std::cout << character << " Character is not in hand" << std::endl;
     }
 }
 

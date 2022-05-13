@@ -11,6 +11,9 @@ public:
 Player(string name);
 string getName(); 
 int getScore();
+bool isCurrentTurn();
+void setCurrentTurn();
+void endCurrentTurn();
 void setScore(int score);
 void addToScore(int addScore);
 LinkedList* getPlayerHand();
@@ -18,7 +21,8 @@ void initalisePlayerHand(LinkedList* tileBag);
 void replaceTile(char character, LinkedList* tileBag);
 void addTilesToHand(LinkedList* tileBag);
 
-// Add function to add multiple tiles to hand (while size() != 7)
+// Add bingo function -> if length of hand == 0 after turn, cout << Bingo
+
 
 
 
@@ -28,6 +32,7 @@ private:
 int score;
 string name;
 LinkedList* playerHand;
+bool currentTurn;
 
 };
 #endif
