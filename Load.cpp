@@ -1,5 +1,8 @@
 #include "Load.h"
 
+// Load game, then store variable into Player objects
+// eg. player->setScore(load->getPlayer1Score())
+
 Load::Load(string fileName) {
     this->fileName = fileName;
 
@@ -36,6 +39,8 @@ void Load::loadGame(string fileName) {
         getline(file,text);
         player2Hand = splitStringToVec(text,player2Hand);
 
+        getline(file,text);
+        tilePositions = splitStringToVec(text,tileBag);
         getline(file,text);
         tileBag = splitStringToVec(text,tileBag);
     }
@@ -78,4 +83,8 @@ int Load::getPlayer2Score() {
 
 vector<string> Load::getPlayer2Hand() {
     return player2Hand;
+}
+
+vector<string> Load::getTilePositions() {
+    return tilePositions;
 }

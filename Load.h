@@ -22,6 +22,7 @@ class Load {
     vector<string> getTileBag();
     vector<string> getPlayer1Hand();
     vector<string> getPlayer2Hand();
+    vector<string> getTilePositions();
     string getPlayer1Name();
     string getPlayer2Name();
     int getPlayer1Score();
@@ -39,6 +40,8 @@ class Load {
     vector<string> player2Hand;
 
     vector<string> tileBag;
+
+    vector<string> tilePositions;
 
 
 };
