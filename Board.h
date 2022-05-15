@@ -15,6 +15,8 @@ using std::ostream;
 
 #define MAX_BOARD_SIZE          15
 #define ASCII_CHARACTERS        65
+#define SYMBOL_SPACE            32
+#define SYMBOL_NULL             0
 
 class Board {
     public:

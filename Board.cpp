@@ -13,7 +13,7 @@ void Board::insertTile(const string position, Tile* tile) {
     int column = int(position[1] - '0');
 
     // if third character is SPACE or NULL (if input row < 10)
-    if ((position[2] == 32 || position[2] == 0) ) {
+    if ((position[2] == SYMBOL_SPACE || position[2] == SYMBOL_NULL) ) {
         column = int(position[1] -'0');
     }
 
@@ -31,7 +31,7 @@ void Board::insertTile(const string position, Tile* tile) {
         // if location is empty, place tile
         if (gBoard[row][column] == nullptr) {
             gBoard[row][column] = tile;
-            std::cout << tile->letter << " Added at " << position << std::endl;
+            // std::cout << tile->letter << " Added at " << position << std::endl;
             placedTiles.push_back(string(1,tile->letter) + "@" + position); // Add to placedTiles vector
         }
         else {
@@ -99,7 +99,7 @@ bool Board::isUpperCase(char c) {
 }
 
 bool Board::inputValid(string position) {
-    if (!isNumber(position[1]) || (!isNumber(position[2]) && position[2] != 32 && position[2] != 0) || !isUpperCase(position[0])) {
+    if (!isNumber(position[1]) || (!isNumber(position[2]) && position[2] != SYMBOL_SPACE && position[2] != SYMBOL_NULL) || !isUpperCase(position[0])) {
         return false;
     }
     return true;
