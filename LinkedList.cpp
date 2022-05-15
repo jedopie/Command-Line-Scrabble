@@ -198,7 +198,7 @@ void LinkedList::initaliseTileBag() {
    }
 }
 
-// shuffles original tileBag and stores into new LinkedList
+// shuffles original, ordered tileBag and returns new shuffled LinkedList
 LinkedList* LinkedList::shuffleTileBag() {
    LinkedList* shuffledList = new LinkedList();
    // vector to establish which tiles have already been visited
@@ -229,4 +229,15 @@ LinkedList* LinkedList::shuffleTileBag() {
       }
    }
    return shuffledList;
+}
+
+void LinkedList::printLinkedList() {
+    for (int i =0; i < size(); i++) {
+        if (i < size() -1 ) {
+            std::cout << this->get(i)->getLetter() << "-" << this->get(i)->getValue() << ",";
+        }
+        else {
+            std::cout << this->get(i)->getLetter() << "-" << this->get(i)->getValue() << std::endl;
+        }
+    }
 }

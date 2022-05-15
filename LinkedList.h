@@ -21,6 +21,7 @@ public:
    int searchForLetter(char character);
    bool isLetterinHand(char character);
    LinkedList* shuffleTileBag();
+   void printLinkedList();
 
 
 
