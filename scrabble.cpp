@@ -24,6 +24,8 @@ void showMenu();
 void startNewGame();
 bool isUpper(string &input);
 vector<string> splitStringToVec(string input, vector<string> vec);
+void printWinner(vector<Player*> players, Player* winner);
+
 #define EXIT_SUCCESS    0
 
 int main(void) {
@@ -157,6 +159,7 @@ void startNewGame() {
     char c;
     // int i = 0;
     while (tileBag->size() > 0) {
+       cout << tileBag->size();
         for (int i = 0; i < NUM_PLAYERS; i++) {
             cout << players[i]->getName() << ", it's your turn" << endl; // prints name of current player
             cout << "Score for " << players[0]->getName() << ": " << players[0]->getScore() << endl; //name of player1
@@ -190,6 +193,7 @@ void startNewGame() {
                         cout << endl; 
                         cout << "BINGO!" << endl;
                         }
+                     players[i]->resetPassTally();
                   }
                   else {
                      cout << inputs[1] << " is not in your hand. Try again" << endl;
@@ -201,8 +205,21 @@ void startNewGame() {
                   }
 
                else if (input == "pass") {
-                  input = "done";
-                  cout << endl;
+                  players[i]->incrementPassTally();
+                  if (players[i]->getPassTally() == 2) {
+                     cout << "That was " << players[i]->getName() << "'s second pass in a row!" << endl;
+                     cout << endl;
+                     if (i ==0) {
+                        printWinner(players, players[1]);
+                     }
+                     else {
+                        printWinner(players, players[0]);
+                     }
+                  }
+                  else {
+                     input = "done";
+                     cout << endl;
+                  }
                }
 
                else if (inputs[0] == "replace") {
@@ -213,7 +230,8 @@ void startNewGame() {
                         players[i]->getPlayerHand()->remove(index); // remove tile
                         players[i]->addTilesToHand(tileBag); //grab tile from tileBag
                         tileBag->addBack(tile); // add replaced tile to back of tileBag
-                        input = "done";
+                        players[i]->resetPassTally();
+                        input = "done"; // end turn
                      }
                      else {
                         cout << "Sorry, " << inputs[1] << " is not in your hand. Try again." << endl;
@@ -232,7 +250,7 @@ void startNewGame() {
                }
 
                else if (input == "done") {
-                  players[i]->addTilesToHand(tileBag);
+                  players[i]->addTilesToHand(tileBag); //add tiles to player's hand if size < 7
                   cout << endl;
                }
                else {
@@ -240,6 +258,12 @@ void startNewGame() {
                }
          } while (input != "done");
       }
+      }
+      if (players[0]->getScore() > players[1]->getScore()) { // if game runs out, player with highest score wins
+         printWinner(players,players[0]);
+      }
+      else {
+         printWinner(players,players[1]);
       }
 }
 
@@ -256,4 +280,19 @@ vector<string> splitStringToVec(string input, vector<string> vec){
         vec.push_back(substr);
     }
     return vec;
+}
+
+void printWinner(vector<Player*> players, Player* winner) {
+   cout << "Game over" << endl;
+   cout << "Score for " << players[0]->getName() << ": " << players[0]->getScore() << endl;
+   cout << "Score for " << players[1]->getName() << ": " << players[1]->getScore() << endl;
+   if (players[0] == winner) {
+      cout << "Player " << players[0]->getName() << " won!" << endl;
+   }
+   else {
+      cout << "Player " << players[1]->getName() << " won!" << endl;
+   }
+   cout << endl;
+   cout << "Goodbye" << endl;
+   exit(EXIT_SUCCESS);
 }
