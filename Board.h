@@ -29,6 +29,7 @@ class Board {
     bool isNumber(char c);
     bool isUpperCase(char c);
     bool inputValid(string position);
+    bool locationFilled(string position);
     vector<string> getPlacedTiles();
 
 
