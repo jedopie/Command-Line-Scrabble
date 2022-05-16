@@ -197,10 +197,16 @@ void loadGame() {
    cout << "Enter the filename from which load a game" << endl;
    cout << "> ";
    cin >> fileName; // ask for saveFile from user
+   if (cin.eof()) {
+      exit(EXIT_SUCCESS);
+   }
    while (!fileExists(fileName)) { //If file cannot be found, ask user to enter another attempt
       cout << "Sorry, this save file couldn't be found. Please try again" << endl;
       cout << "> ";
       cin >> fileName;
+      if (cin.eof()) {
+         exit(EXIT_SUCCESS);
+      }
    }
    Load* load = new Load(fileName);
    load->loadGame(fileName);
@@ -270,6 +276,9 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
             do {
                cout << "> ";
                std::getline(cin >> std::ws, input);
+               if (cin.eof()) {
+                  exit(EXIT_SUCCESS);
+               }
                vector<string> inputs = {}; 
                inputs = splitStringToVec(input, inputs);
                c = inputs[1][0];
