@@ -21,10 +21,14 @@ using std::cin;
 
 void showCredits();
 void showMenu();
+void loadGame();
 void startNewGame();
 bool isUpper(string &input);
+void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* game);
 vector<string> splitStringToVec(string input, vector<string> vec);
 void printWinner(vector<Player*> players, Player* winner);
+inline bool fileExists (const std::string& name);
+int returnCharValue(char c);
 
 #define EXIT_SUCCESS    0
 
@@ -86,12 +90,13 @@ void showMenu() {
    while (input != "1" || input == "2" || input != "3" || input != "4") {
       if (cin.eof()) {
          quit = true;
+         exit(EXIT_SUCCESS);
       }
       else if (input == "1") {
          startNewGame();
       }
       else if (input == "2") {
-         //load game
+         loadGame();
       }
       else if (input == "3") {
          showCredits();
@@ -153,13 +158,107 @@ void startNewGame() {
 
     Board* board = game->getBoard(); // declare & initalise board
 
+   playGame(tileBag, players, board, game); // Run main game loop
+}
 
-    // Player's input for their turn
-    string input;
+bool isUpper(string &input) {
+    return std::all_of(input.begin(), input.end(), [](unsigned char c){ return std::isupper(c); });
+
+}
+
+vector<string> splitStringToVec(string input, vector<string> vec){
+    std::stringstream ss(input);
+    while (ss.good()) {
+        string substr;
+        getline(ss,substr,' ');
+        vec.push_back(substr);
+    }
+    return vec;
+}
+
+void printWinner(vector<Player*> players, Player* winner) {
+   cout << "Game over" << endl;
+   cout << "Score for " << players[0]->getName() << ": " << players[0]->getScore() << endl;
+   cout << "Score for " << players[1]->getName() << ": " << players[1]->getScore() << endl;
+   if (players[0] == winner) {
+      cout << "Player " << players[0]->getName() << " won!" << endl;
+   }
+   else {
+      cout << "Player " << players[1]->getName() << " won!" << endl;
+   }
+   cout << endl;
+   cout << "Goodbye" << endl;
+   exit(EXIT_SUCCESS);
+}
+
+void loadGame() {
+   string fileName;
+   cout << endl;
+   cout << "Enter the filename from which load a game" << endl;
+   cout << "> ";
+   cin >> fileName; // ask for saveFile from user
+   while (!fileExists(fileName)) { //If file cannot be found, ask user to enter another attempt
+      cout << "Sorry, this save file couldn't be found. Please try again" << endl;
+      cout << "> ";
+      cin >> fileName;
+   }
+   Load* load = new Load(fileName);
+   load->loadGame(fileName);
+   // Create player objects
+   Player* player1 = new Player(load->getPlayer1Name());
+   player1->setScore(load->getPlayer1Score()); // set score
+
+   // Set player hand linked list
+   for (int i =0; i < load->getPlayer1Hand().size(); i++) {
+      Tile* tile = new Tile(load->getPlayer1Hand()[i][0], load->getPlayer1Hand()[i][2]);
+      player1->getPlayerHand()->addBack(tile);
+   }
+   // create Player2 object
+   Player* player2 = new Player(load->getPlayer2Name());
+   player2->setScore(load->getPlayer2Score());
+
+   // set player2's hand
+   for (int i =0; i < load->getPlayer2Hand().size(); i++) {
+      Tile* tile = new Tile(load->getPlayer2Hand()[i][0], load->getPlayer2Hand()[i][2]);
+      player2->getPlayerHand()->addBack(tile);
+   }
+   Game* game = new Game();
+   LinkedList* tileBag = game->getTileBag(); // get linked list
+   tileBag->clearLinkedList(); // Clear shuffled linked list
+   Board* board = game->getBoard(); // initalise empty board
+
+   for (int i =0; i < load->getTileBag().size(); i++) {
+      Tile* tile = new Tile(load->getTileBag()[i][0], load->getTileBag()[i][2]); //Create tiles from save file
+      tileBag->addBack(tile); // Add tile to empty tileBag
+   }
+   // insert saved tiles into empty board
+   for (int i =0; i < load->getTilePositions().size(); i++) {
+      string position;
+      position = load->getTilePositions()[i].substr(2,4); // position substring
+      char c = load->getTilePositions()[i][0]; // char (tile Letter)
+      Tile* tile = new Tile(c, returnCharValue(c)); //Create new tile
+      board->insertTile(position, tile); // Insert tile at given position
+   }
+   if (load->getCurrentPlayer() == player1->getName()) {
+      game->addPlayers(player1,player2);
+   }
+   else {
+      game->addPlayers(player2,player1);
+   }
+   cout << endl;
+   cout << "Scrabble Game Successfully Loaded!" << endl;
+   vector<Player*> players = game->getPlayers();
+
+   playGame(tileBag, players, board, game);
+
+}
+
+void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* game) {
+   string input;
     char c;
     // int i = 0;
     while (tileBag->size() > 0) {
-       cout << tileBag->size();
+       cout << endl;
         for (int i = 0; i < NUM_PLAYERS; i++) {
             cout << players[i]->getName() << ", it's your turn" << endl; // prints name of current player
             cout << "Score for " << players[0]->getName() << ": " << players[0]->getScore() << endl; //name of player1
@@ -197,6 +296,7 @@ void startNewGame() {
                   }
                   else {
                      cout << inputs[1] << " is not in your hand. Try again" << endl;
+                     input ="";
                      // cout << board->locationFilled(inputs[3]);
                   }
                }
@@ -235,10 +335,12 @@ void startNewGame() {
                      }
                      else {
                         cout << "Sorry, " << inputs[1] << " is not in your hand. Try again." << endl;
+                        input = "";
                      }
                   }
                   else {
                      cout << "Invalid entry. Please Try again." << endl;
+                     input = "";
                   }
                   cout << endl;
                }
@@ -265,34 +367,37 @@ void startNewGame() {
       else {
          printWinner(players,players[1]);
       }
-}
-
-bool isUpper(string &input) {
-    return std::all_of(input.begin(), input.end(), [](unsigned char c){ return std::isupper(c); });
 
 }
-
-vector<string> splitStringToVec(string input, vector<string> vec){
-    std::stringstream ss(input);
-    while (ss.good()) {
-        string substr;
-        getline(ss,substr,' ');
-        vec.push_back(substr);
-    }
-    return vec;
+// Checks if file can be found
+inline bool fileExists (const std::string& name) {
+   ifstream f(name.c_str());
+   return f.good(); 
 }
 
-void printWinner(vector<Player*> players, Player* winner) {
-   cout << "Game over" << endl;
-   cout << "Score for " << players[0]->getName() << ": " << players[0]->getScore() << endl;
-   cout << "Score for " << players[1]->getName() << ": " << players[1]->getScore() << endl;
-   if (players[0] == winner) {
-      cout << "Player " << players[0]->getName() << " won!" << endl;
+// Used to fill tiles for loading board
+int returnCharValue(char c) {
+   int retValue = 0;
+   if (c == 'A' || c== 'E' || c== 'I' || c=='O' || c== 'U'|| c== 'L'|| c== 'N'|| c== 'S'|| c== 'T'|| c== 'R') {
+      retValue = 1;
+   }
+   else if (c== 'D'|| c== 'G') {
+      retValue = 2;
+   }
+   else if (c== 'B'|| c== 'C' || c== 'M'|| c== 'P') {
+      retValue = 3;
+   }
+   else if (c== 'F'|| c== 'H'|| c== 'V'|| c== 'W'|| c== 'Y') {
+      retValue = 4;
+   }
+   else if (c== 'K') {
+      retValue = 5;
+   }
+   else if (c == 'J' || c== 'X') {
+      retValue = 8;
    }
    else {
-      cout << "Player " << players[1]->getName() << " won!" << endl;
+      retValue = 10;
    }
-   cout << endl;
-   cout << "Goodbye" << endl;
-   exit(EXIT_SUCCESS);
+   return retValue;
 }
