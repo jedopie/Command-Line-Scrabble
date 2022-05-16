@@ -216,7 +216,8 @@ void loadGame() {
 
    // Set player hand linked list
    for (int i =0; i < load->getPlayer1Hand().size(); i++) {
-      Tile* tile = new Tile(load->getPlayer1Hand()[i][0], load->getPlayer1Hand()[i][2]);
+      int j = load->getPlayer1Hand()[i][2] -'0';
+      Tile* tile = new Tile(load->getPlayer1Hand()[i][0], j);
       player1->getPlayerHand()->addBack(tile);
    }
    // create Player2 object
@@ -225,7 +226,8 @@ void loadGame() {
 
    // set player2's hand
    for (int i =0; i < load->getPlayer2Hand().size(); i++) {
-      Tile* tile = new Tile(load->getPlayer2Hand()[i][0], load->getPlayer2Hand()[i][2]);
+      int j = load->getPlayer2Hand()[i][2] - '0';
+      Tile* tile = new Tile(load->getPlayer2Hand()[i][0], j);
       player2->getPlayerHand()->addBack(tile);
    }
    Game* game = new Game();
@@ -234,7 +236,8 @@ void loadGame() {
    Board* board = game->getBoard(); // initalise empty board
 
    for (int i =0; i < load->getTileBag().size(); i++) {
-      Tile* tile = new Tile(load->getTileBag()[i][0], load->getTileBag()[i][2]); //Create tiles from save file
+      int j = load->getTileBag()[i][2] - '0';
+      Tile* tile = new Tile(load->getTileBag()[i][0], j); //Create tiles from save file
       tileBag->addBack(tile); // Add tile to empty tileBag
    }
    // insert saved tiles into empty board
@@ -254,6 +257,12 @@ void loadGame() {
    cout << endl;
    cout << "Scrabble Game Successfully Loaded!" << endl;
    vector<Player*> players = game->getPlayers();
+
+   for (int i =0; i < players.size(); i++) {
+      if (players[i]->getPlayerHand()->size() < 7) {
+         players[i]->addTilesToHand(tileBag);
+      }
+   }
 
    playGame(tileBag, players, board, game);
 
@@ -279,7 +288,7 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
                if (cin.eof()) {
                   exit(EXIT_SUCCESS);
                }
-               vector<string> inputs = {}; 
+               vector<string> inputs; 
                inputs = splitStringToVec(input, inputs);
                c = inputs[1][0];
 
