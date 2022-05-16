@@ -302,9 +302,6 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
                }
                vector<string> inputs; 
                inputs = splitStringToVec(input, inputs);
-               if (input != "pass" && input != "done" && input != "quit") { // fixes bug (if input > 1 word)
-                  c = inputs[1][0];
-               }
 
                if (input == "quit") { //if player inputs "quit", exit game safely
                cout << "Goodbye" << endl;
@@ -312,7 +309,7 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
                }
                // if player inputs "place" and following input is valid, place tile on board at given location
                if (inputs[0] == "place" && board->inputValid(inputs[3]) && !board->locationFilled(inputs[3])) {
-
+                  c = inputs[1][0];
                   if (players[i]->getPlayerHand()->isLetterinHand(c)) {
                      int j = players[i]->getPlayerHand()->searchForLetter(c);
                      Tile* tile = new Tile(*players[i]->getPlayerHand()->get(j));
