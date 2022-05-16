@@ -62,7 +62,6 @@ void showCredits() {
    cout << "Name: Xiu Bin Guo" << endl;
    cout << "Student ID: s3841074" << endl;
    cout << "Email: s3841074@student.rmit.edu.au" << endl;
-   cout << endl;
    cout << "----------------------------------" << endl;
    cout << endl;
 
