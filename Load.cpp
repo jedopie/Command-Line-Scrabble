@@ -43,6 +43,9 @@ void Load::loadGame(string fileName) {
         tilePositions = splitStringToVec(text,tileBag);
         getline(file,text);
         tileBag = splitStringToVec(text,tileBag);
+
+        getline(file,text);
+        currentTurn = text;
     }
 }
 
@@ -87,4 +90,8 @@ vector<string> Load::getPlayer2Hand() {
 
 vector<string> Load::getTilePositions() {
     return tilePositions;
+}
+
+string Load::getCurrentPlayer() {
+    return currentTurn;
 }

@@ -27,6 +27,7 @@ class Load {
     string getPlayer2Name();
     int getPlayer1Score();
     int getPlayer2Score();
+    string getCurrentPlayer();
 
     private:
     string fileName;
@@ -42,6 +43,8 @@ class Load {
     vector<string> tileBag;
 
     vector<string> tilePositions;
+
+    string currentTurn;
 
 
 };
