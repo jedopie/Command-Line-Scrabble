@@ -6,6 +6,7 @@ Player::Player(string name) {
     score = 0;
     playerHand = new LinkedList();
     currentTurn = false;
+    passTally = 0;
 }
 string Player::getName() {
     return this->name;
@@ -92,4 +93,16 @@ void Player::addTilesToHand(LinkedList* tileBag) {
         tileBag->removeBack();
         length++;
     }
+}
+
+void Player::incrementPassTally() {
+    passTally++;
+}
+
+void Player::resetPassTally() {
+    this->passTally = 0;
+}
+
+int Player::getPassTally() {
+    return this->passTally;
 }
