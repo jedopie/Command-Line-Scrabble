@@ -123,10 +123,16 @@ void startNewGame() {
     cout << "> ";
     string player1Name;
     cin >> player1Name; // grab player1 name from user input
+    if (cin.eof()) {
+           exit(EXIT_SUCCESS);
+        }
     while (!isUpper(player1Name)) {
         cout << "Sorry, please enter a name with uppercase characters" << endl;
 
         cin >> player1Name;
+        if (cin.eof()) {
+           exit(EXIT_SUCCESS);
+        }
     }
 
     cout << "\n" << endl;
@@ -134,11 +140,17 @@ void startNewGame() {
     cout << "> ";
     string player2Name;
     cin >> player2Name;
+    if (cin.eof()) {
+           exit(EXIT_SUCCESS);
+        }
 
     while (!isUpper(player2Name)) {
         cout << "Sorry, please enter a name with uppercase characters" << endl;
 
         cin >> player2Name;
+        if (cin.eof()) {
+           exit(EXIT_SUCCESS);
+        }
     }
     cout << endl;
 
@@ -313,7 +325,7 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
                         cout << endl; 
                         cout << "BINGO!" << endl;
                         }
-                     players[i]->resetPassTally();
+                     players[i]->resetPassTally(); // reset pass tally if make move
                   }
                   else {
                      cout << inputs[1] << " is not in your hand. Try again" << endl;
@@ -326,7 +338,7 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
                   }
                
                else if (input == "pass") {
-                  players[i]->incrementPassTally();
+                  players[i]->incrementPassTally(); //keeps tally of how many passes in a row
                   if (players[i]->getPassTally() == 2) {
                      cout << "That was " << players[i]->getName() << "'s second pass in a row!" << endl;
                      cout << endl;
@@ -351,7 +363,7 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
                         players[i]->getPlayerHand()->remove(index); // remove tile
                         players[i]->addTilesToHand(tileBag); //grab tile from tileBag
                         tileBag->addBack(tile); // add replaced tile to back of tileBag
-                        players[i]->resetPassTally();
+                        players[i]->resetPassTally(); // reset pass tally
                         input = "done"; // end turn
                      }
                      else {
