@@ -285,7 +285,7 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
     // int i = 0;
     while (tileBag->size() > 0) {
        cout << endl;
-        for (int i = 0; i < NUM_PLAYERS; i++) {
+      for (int i = 0; i < NUM_PLAYERS; i++) {
             cout << players[i]->getName() << ", it's your turn" << endl; // prints name of current player
             cout << "Score for " << players[0]->getName() << ": " << players[0]->getScore() << endl; //name of player1
             cout << "Score for " << players[1]->getName() << ": " << players[1]->getScore() << endl; // name of player2
@@ -386,6 +386,14 @@ void playGame(LinkedList* tileBag, vector<Player*> players, Board* board, Game* 
                }
                else {
                   cout << "Invalid Entry. Try again." << endl;
+               }
+               if (tileBag->size() < 1) {
+                  if (players[0]->getScore() > players[1]->getScore()) { // if game runs out, player with highest score wins
+                        printWinner(players,players[0]);
+                        }
+                  else {
+                     printWinner(players,players[1]);
+                     }
                }
          } while (input != "done");
       }
