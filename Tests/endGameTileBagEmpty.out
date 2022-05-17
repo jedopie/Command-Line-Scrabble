@@ -1,0 +1,44 @@
+Welcome to Scrabble!
+-------------------
+Menu
+----
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+
+> 
+Enter the filename from which load a game
+> 
+Scrabble Game Successfully Loaded!
+
+E, it's your turn
+Score for E: 70
+Score for J: 91
+   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14
+  ------------------------------------------------------------
+A| I | D | D | E | Z | B | U | D | A | A | P | R | E |   |   | 
+B| I | U | A | N | I | N | T |   |   |   |   |   |   |   |   | 
+C|   | E | G | B | I |   | N |   |   | E |   | Y | Q | R |   | 
+D|   |   |   |   |   |   |   | N |   |   |   |   |   |   |   | 
+E| Y | G | T | J | A |   |   |   | L |   |   |   |   |   |   | 
+F| I |   | N |   |   |   |   |   |   |   |   |   |   |   |   | 
+G| O | R | C |   |   |   |   |   |   |   |   | C |   |   |   | 
+H| W | A |   | F |   |   |   |   |   |   |   |   | R |   |   | 
+I| A | L |   |   | I | R |   |   |   | E |   |   |   |   |   | 
+J| R | O |   |   | F |   |   |   | D |   | K |   |   |   |   | 
+K| U | I | U |   | P |   |   |   |   |   |   |   | M |   |   | 
+L| O | V | O | I | E | E | H | G |   |   |   |   |   |   |   | 
+M| N | S | L |   |   | V | T |   |   |   |   |   |   |   |   | 
+N| U | E | A | A |   |   |   |   |   |   |   |   |   |   |   | 
+O| M | O |   | S |   |   |   |   |   |   |   |   | W |   |   | 
+
+Your hand is
+T-1,T-1,A-1,E-1,T-1,I-1,E-1
+> > > 
+Game over
+Score for E: 72
+Score for J: 91
+Player J won!
+
+Goodbye
